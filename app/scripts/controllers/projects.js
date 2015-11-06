@@ -11,5 +11,4 @@ angular.module('vangoApp')
   .controller('ProjectsCtrl', function () {
 
     console.log('(ProjectsCtrl) starting...');
-
   });

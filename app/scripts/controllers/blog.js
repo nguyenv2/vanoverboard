@@ -11,5 +11,4 @@ angular.module('vangoApp')
   .controller('BlogCtrl', function () {
 
     console.log('(BlogCtrl) starting...');
-
   });
