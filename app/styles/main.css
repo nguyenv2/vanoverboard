@@ -62,7 +62,7 @@ body {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 766px;
   }
 
   /* Remove the padding we set earlier */
@@ -87,4 +87,7 @@ body {
 /* vango */
 .center-text{
   text-align: center;
+}
+.right-text{
+  text-align: right;
 }
