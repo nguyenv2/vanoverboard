@@ -1,9 +1,14 @@
 'use strict';
 
-angular.module('vangoApp').directive('helloVan',function() {
+angular.module('vangoApp').directive('blogTeaser',function() {
     return {
-        restrict: 'AE',
-        replace: 'true',
-        template: '<h3>Hello World!!</h3>'
+        restrict: 'E',
+        link: function(scope, elem, attrs, ctrl) {
+          console.log('link function...');
+          console.log(attrs);
+          scope.blogtitle = attrs.blogtitle;
+          scope.pubdate = attrs.pubdate;
+        },
+        templateUrl: '/views/templates/blog_teaser.html'
     };
 });
