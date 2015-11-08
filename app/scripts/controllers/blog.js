@@ -15,8 +15,8 @@ angular.module('vanoverboardApp')
 
         $scope.loadArticle = function(articleName){
 
-            console.log("#/article/"+articleName);
+            console.log('#/article/'+articleName);
 
-            window.location = "#/article/"+articleName;
+            window.location = '#/article/'+articleName;
         };
   }]);
