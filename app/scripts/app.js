@@ -10,8 +10,8 @@
  */
 angular
   .module('vanoverboardApp', [
-    'ngAnimate',
-    'ngCookies',
+      'ngAnimate',
+      'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',

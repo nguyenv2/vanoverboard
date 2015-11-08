@@ -14,6 +14,6 @@ angular.module('vanoverboardApp')
         console.log('(ProjectsCtrl) starting...');
 
         $scope.loadApp = function(appName){
-            window.location = "#/app/"+appName;
+            window.location = '#/app/'+appName;
         };
   }]);
