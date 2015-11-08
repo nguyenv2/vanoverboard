@@ -85,9 +85,72 @@ body {
 
 
 /* vango */
+@font-face {
+    font-family: "goodDog";
+    src: url("../fonts/GoodDog.otf");
+}
+@font-face {
+    font-family: "pacifico";
+    src: url("../fonts/Pacifico.ttf");
+}
+@font-face {
+    font-family: "openSans";
+    src: url("../fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+    font-family: "lobster";
+    src: url("../fonts/LobsterTwo-Regular.otf");
+}
+@font-face {
+    font-family: "lobsterBoldItalic";
+    src: url("../fonts/LobsterTwo-BoldItalic.otf");
+}
+@font-face {
+    font-family: "lobsterItalic";
+    src: url("../fonts/LobsterTwo-Italic.otf");
+}
+
+
+
 .center-text{
   text-align: center;
 }
 .right-text{
   text-align: right;
+}
+
+
+.project-teaser{
+     padding-top:2em;
+     padding-bottom:2em;
+     border-bottom: 1px #efefef solid;
+}
+.project-teaser:hover{
+    cursor: pointer;
+}
+.project-title{
+    font-size: 2em;
+    font-family: lobster;
+}
+.project-desc{
+    font-size: 1.25em;
+    font-family: openSans;
+}
+
+
+.blog-teaser{
+    padding-top:2em;
+    padding-bottom:3em;
+    border-bottom: 1px #efefef solid;
+}
+.blog-teaser:hover{
+    cursor: pointer;
+}
+.blog-title{
+    font-size: 1.25em;
+    font-family: openSans;
+}
+.blog-pubdate{
+    font-size: 1em;
+    font-family: lobster;
 }

@@ -2,13 +2,21 @@
 
 /**
  * @ngdoc function
- * @name vangoApp.controller:MusingsCtrl
+ * @name vanoverboardApp.controller:MusingsCtrl
  * @description
  * # MusingsCtrl
- * Controller of the vangoApp
+ * Controller of the vanoverboardApp
  */
-angular.module('vangoApp')
-  .controller('BlogCtrl', function () {
+angular.module('vanoverboardApp')
+  .controller('BlogCtrl', ['$scope',
+    function ($scope) {
 
-    console.log('(BlogCtrl) starting...');
-  });
+        console.log('(BlogCtrl) starting...');
+
+        $scope.loadArticle = function(articleName){
+
+            console.log("#/article/"+articleName);
+
+            window.location = "#/article/"+articleName;
+        };
+  }]);

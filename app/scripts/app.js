@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name vangoApp
+ * @name vanoverboardApp
  * @description
- * # vangoApp
+ * # vanoverboardApp
  *
  * Main module of the application.
  */
 angular
-  .module('vangoApp', [
+  .module('vanoverboardApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -34,6 +34,18 @@ angular
       .when('/projects', {
         templateUrl: 'views/projects.html',
         controller: 'ProjectsCtrl'
+      })
+
+      // Articles
+      .when('/article/gulp-vs-grunt', {
+            templateUrl: 'views/article/gulp-vs-grunt.html',
+            controller: 'BlogCtrl'
+      })
+
+      // Projects
+      .when('/app/vanGo', {
+        templateUrl: 'views/app/vanGo.html',
+        controller: 'VanGoCtrl'
       })
       .otherwise({
         redirectTo: '/'

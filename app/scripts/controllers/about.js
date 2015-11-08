@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name vangoApp.controller:AboutCtrl
+ * @name vanoverboardApp.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the vangoApp
+ * Controller of the vanoverboardApp
  */
-angular.module('vangoApp')
+angular.module('vanoverboardApp')
   .controller('AboutCtrl', function () {
 
     console.log('(AboutCtrl) starting...');

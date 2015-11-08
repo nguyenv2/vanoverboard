@@ -2,13 +2,18 @@
 
 /**
  * @ngdoc function
- * @name vangoApp.controller:ProjectsCtrl
+ * @name vanoverboardApp.controller:ProjectsCtrl
  * @description
  * # ProjectsCtrl
- * Controller of the vangoApp
+ * Controller of the vanoverboardApp
  */
-angular.module('vangoApp')
-  .controller('ProjectsCtrl', function () {
+angular.module('vanoverboardApp')
+  .controller('ProjectsCtrl', ['$scope',
+      function ($scope) {
 
-    console.log('(ProjectsCtrl) starting...');
-  });
+        console.log('(ProjectsCtrl) starting...');
+
+        $scope.loadApp = function(appName){
+            window.location = "#/app/"+appName;
+        };
+  }]);
