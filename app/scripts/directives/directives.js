@@ -9,7 +9,8 @@ angular.module('vanoverboardApp').directive('blogTeaser',function() {
             pubdate : '@',
             article: '@'
         },
-        link: function(scope, elem, attrs) {
+        //link: function(scope, elem, attrs) {
+        link: function() {
           console.log('link function...');
         },
         //templateUrl: '/views/templates/blog_teaser.html'
@@ -29,7 +30,8 @@ angular.module('vanoverboardApp').directive('projectTeaser',function() {
         scope : {
             projecttitle : '@'
         },
-        link: function(scope, elem, attrs) {
+        //link: function(scope, elem, attrs) {
+        link: function() {
             console.log('link function...');
         },
         //templateUrl: '/views/templates/blog_teaser.html'

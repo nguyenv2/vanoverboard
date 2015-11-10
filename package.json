@@ -33,6 +33,5 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "node-capital-bikeshare": "^1.2.1"
   }
 }
