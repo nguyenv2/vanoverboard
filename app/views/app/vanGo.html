@@ -7,14 +7,24 @@
 
 </head>
 <body>
-<h1></h1>
+<h1>VanGo</h1>
+
+  <h3>Weather</h3>
+  <div class="row">
+    <div class="col-sm-3">{{weather.name}}</div>
+    <div class="col-sm-3">Temp: {{weather.main.temp}}</div>
+    <div class="col-sm-3">Wind: {{weather.wind.speed}}</div>
+    <div class="col-sm-3">Humidity: {{weather.main.humidity}}</div>
+  </div>
+
 
   <h3>To Work</h3>
   <h5>Trains - Court House Metro station</h5>
   <div class="row" ng-repeat="train in trainsHeadingWork">
-    <div class="col-sm-6">Direction: {{train.DestinationName}}</div>
-    <div class="col-sm-3">Line: {{train.Line}}</div>
-    <div class="col-sm-3">Min: {{train.Min}}</div>
+    <div class="col-sm-5">Direction: {{train.DestinationName}}</div>
+    <div class="col-sm-2">Line: {{train.Line}}</div>
+    <div class="col-sm-2">Min: {{train.Min}}</div>
+    <div class="col-sm-3">Arrival: {{train.ArrivalTime}}</div>
   </div>
 
   <h5>3Y Bus - Rt 29 Lee Hwy + Cleveland St</h5>
@@ -35,9 +45,10 @@
 
   <h5>Trains - McPherson Square Metro station</h5>
   <div class="row" ng-repeat="train in trainsHeadingHome">
-    <div class="col-sm-6">Direction: {{train.DestinationName}}</div>
-    <div class="col-sm-3">Line: {{train.Line}}</div>
-    <div class="col-sm-3">Min: {{train.Min}}</div>
+    <div class="col-sm-5">Direction: {{train.DestinationName}}</div>
+    <div class="col-sm-2">Line: {{train.Line}}</div>
+    <div class="col-sm-2">Min: {{train.Min}}</div>
+    <div class="col-sm-3">Arrival: {{train.ArrivalTime}}</div>
   </div>
 
   <h5>3Y Bus - 15th St Nw + I St Nw & K St Nw</h5>

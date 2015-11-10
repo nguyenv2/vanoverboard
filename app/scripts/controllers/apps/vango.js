@@ -34,6 +34,29 @@ angular.module('vanoverboardApp')
           });
           */
 
+          //http://api.openweathermap.org/data/2.5/weather?zip=22201,us&appid=6da66b5a20f27cf66c93410546b1f9ce
+          function getWeather(zipcode){
+
+            var weatherUrl = 'http://api.openweathermap.org/data/2.5/weather?zip=' + zipcode +',us&appid=6da66b5a20f27cf66c93410546b1f9ce';
+
+            $http({
+              method: 'get',
+              url: weatherUrl,
+              responseType: "json"
+            }).
+            success(function(data){
+              console.log('Success - weather');
+
+              console.log(data);
+              $scope.weather = data;
+
+            }).
+            error(function(data){
+              console.log('Error: ' + data);
+            });
+          }
+
+
 
 
           $scope.no_buses_running_work = true;
@@ -58,11 +81,13 @@ angular.module('vanoverboardApp')
           var metro={
             goHome:{
               url:'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/' + station.mcpherson_square +'?api_key=' + $scope.api_key,
-              lines:[station.vienna, station.wiehle]
+              endpoint:[station.vienna, station.wiehle],
+              line:['OR','SV']
             },
             goWork:{
               url:'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/' + station.mcpherson_square +'?api_key=' + $scope.api_key,
-              lines:[station.largo_town_center, station.new_carrollton]
+              endpoint:[station.largo_town_center, station.new_carrollton],
+              line:['OR','SV']
             }
           }
 
@@ -76,15 +101,22 @@ angular.module('vanoverboardApp')
               responseType: "json"
             }).
             success(function(data){
-              console.log('Success');
+              console.log('Success - metroHome');
 
               var trains = data.Trains;
               var trainsHeadingHome = [];
 
               for (var x in trains) {
-                for (var y in metro.goHome.lines){
-                  if (metro.goHome.lines[y] === trains[x].DestinationCode){
-                    trainsHeadingHome.push(trains[x]);
+                for (var y in metro.goHome.endpoint){
+                  if (metro.goHome.endpoint[y] === trains[x].DestinationCode){
+                    for (var z in metro.goHome.line){
+                      if (metro.goHome.line[z] == trains[x].Line){
+
+                        trains[x].ArrivalTime = getArrivalTime(trains[x].Min);
+
+                        trainsHeadingHome.push(trains[x]);
+                      }
+                    }
                   }
                 }
               }
@@ -106,15 +138,24 @@ angular.module('vanoverboardApp')
               responseType: "json"
             }).
             success(function(data){
-              console.log('Success');
+              console.log('Success - metroWork');
 
               var trains = data.Trains;
               var trainsHeadingWork = [];
 
               for (var x in trains) {
-                for (var y in metro.goWork.lines){
-                  if (metro.goWork.lines[y] === trains[x].DestinationCode){
-                    trainsHeadingWork.push(trains[x]);
+                for (var y in metro.goWork.endpoint){
+                  if (metro.goWork.endpoint[y] === trains[x].DestinationCode){
+
+                    for (var z in metro.goWork.line){
+                      if (metro.goWork.line[z] == trains[x].Line){
+                        // calculate arrival time
+                        trains[x].ArrivalTime = getArrivalTime(trains[x].Min);
+                        trainsHeadingWork.push(trains[x]);
+                      }
+                    }
+
+
                   }
                 }
               }
@@ -158,6 +199,26 @@ angular.module('vanoverboardApp')
             }
           }
 
+          //ARR,BRD
+          function getArrivalTime(minutes){
+            // calculate arrival time
+            var d1 = new Date ();
+            var d2 = new Date (d1);
+
+            if ((minutes === 'ARR')||(minutes === 'BRD')){
+
+            }else{
+              d2.setMinutes(d1.getMinutes() + Number(minutes));
+            }
+
+            var localTime = d2.toLocaleTimeString();
+            var ampm = localTime.split(' ');
+
+            var time = localTime.split(':');
+            time[0]+':'+time[1]+' '+ampm[1]
+            return time[0]+':'+time[1]+' '+ampm[1];
+          }
+
           function busWork(){
             // towards McPherson
             $http({
@@ -166,22 +227,16 @@ angular.module('vanoverboardApp')
               responseType: "json"
             }).
             success(function(data){
+
+              console.log('Success - busWork');
+
               var buses = data.Predictions;
               var busesHeadingWork = [];
 
               for (var x in buses) {
                 if (bus.routeId === buses[x].RouteID){
                   // calculate arrival time
-                  var d1 = new Date ();
-                  var d2 = new Date ( d1 );
-                  d2.setMinutes ( d1.getMinutes() + buses[x].Minutes );
-
-                  var localTime = d2.toLocaleTimeString();
-                  var ampm = localTime.split(' ');
-
-                  var time = localTime.split(':');
-                  time[0]+':'+time[1]+' '+ampm[1]
-                  buses[x].ArrivalTime = time[0]+':'+time[1]+' '+ampm[1];
+                  buses[x].ArrivalTime = getArrivalTime(buses[x].Minutes);
 
                   busesHeadingWork.push(buses[x]);
                 }
@@ -208,22 +263,15 @@ angular.module('vanoverboardApp')
             }).
             success(function(data){
 
+              console.log('Success - busHome');
+
               var buses = data.Predictions;
               var busesHeadingHome = [];
 
               for (var x in buses) {
                 if (bus.routeId === buses[x].RouteID){
                   // calculate arrival time
-                  var d1 = new Date ();
-                  var d2 = new Date ( d1 );
-                  d2.setMinutes ( d1.getMinutes() + buses[x].Minutes );
-
-                  var localTime = d2.toLocaleTimeString();
-                  var ampm = localTime.split(' ');
-
-                  var time = localTime.split(':');
-                  time[0]+':'+time[1]+' '+ampm[1]
-                  buses[x].ArrivalTime = time[0]+':'+time[1]+' '+ampm[1];
+                  buses[x].ArrivalTime = getArrivalTime(buses[x].Minutes);
 
                   busesHeadingHome.push(buses[x]);
                 }
@@ -247,18 +295,22 @@ angular.module('vanoverboardApp')
           metroWork();
           metroHome();
 
+          getWeather('22201');
+
           var pollBusHome;
           var pollBusWork;
           var pollMetroHome;
           var pollMetroWork;
-          function pollWmata(){
+          var pollWeather;
+          function poll(){
             var intervalTime = 10000; // 10 secs
             pollBusHome = setInterval(busHome,intervalTime);
             pollBusWork = setInterval(busWork,intervalTime);
             pollMetroHome = setInterval(metroHome,intervalTime);
             pollMetroWork = setInterval(metroWork,intervalTime);
+            pollWeather = setInterval(getWeather,intervalTime,'22201');
           }
-          pollWmata();
+          poll();
 
 
 
