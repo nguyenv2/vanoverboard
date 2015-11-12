@@ -12,7 +12,7 @@
   <h3>Weather</h3>
   <div class="row">
     <div class="col-sm-3">{{weather.name}}</div>
-    <div class="col-sm-3">Temp: {{weather.main.temp}}</div>
+    <div class="col-sm-3">Temp: {{weather.main.temp | kelvinToFahrenheit}} F</div>
     <div class="col-sm-3">Wind: {{weather.wind.speed}}</div>
     <div class="col-sm-3">Humidity: {{weather.main.humidity}}</div>
   </div>
