@@ -312,54 +312,59 @@ angular.module('vanoverboardApp')
           }
           poll();
 
+
+
+
+
           // d3
-          // selections
-          //d3.selectAll("h5").style("color", "pink");
-         // d3.select("body").style("color", "gray");
+            var myStyles = [
+                {
+                    width:200,
+                    name: 'Bill Gates',
+                    color:'#268BD2'
+                },{
+                    width:230,
+                    name: 'Steve Jobs',
+                    color:'#BD3613'
+                }, {
+                    width: 220,
+                    name: 'Larry Ellison',
+                    color: '#D11C24'
+                }, {
+                    width: 290,
+                    name: 'Elon Musk',
+                    color: '#C61C6F'
+                }, {
+                    width: 236,
+                    name: 'Mark Zuckerburg',
+                    color: '#595AB7'
+                }, {
+                    width: 230,
+                    name: 'Van Nguyen',
+                    color: '#2176C7'
+                }
+            ];
 
-          // randomly color
-          /*
-          d3.selectAll("div").style("color", function() {
-            return "hsl(" + Math.random() * 360 + ",100%,50%)";
-          });
-          */
+            //d3.select('.item').text('Van Nguyen');
+            d3.selectAll('#chart').selectAll('div')
+                .data(myStyles)
+                .enter().append('div')
+                .classed('item',true)
+                .text(function(d){
+                    return d.name;
+                })
+                .style({
+                    'color': 'white',
+                    'background': function(d){
+                        console.log('bg color: ' + d.color);
+                        return d.color;
+                    },
+                    'width':function(d){
+                        return d.width + 'px';
+                    }
+                });
 
-          //To alternate shades of gray for even and odd nodes:
-          /*
-            d3.selectAll("div").style("background-color", function(d, i) {
-              return i % 2 ? "#fff" : "#eee";
-            });
-            */
 
-          // reading in a array of values
-          d3.selectAll("div")
-            .data([4, 8, 15, 16, 23, 42])
-            .style("font-size", function(d) { return d + "px"; });
 
-/*
-          // Update…
-          var p = d3.select("body").selectAll("p")
-            .data([4, 8, 15, 16, 23, 42])
-            .text(function(d) { return d; });
-
-          // Enter…
-          p.enter().append("p")
-            .text(function(d) { return d; });
-
-          // Exit…
-          p.exit().remove();
-          */
-
-          //to fade the background of the page to black:
-
-            d3.select("body").transition()
-              .style("background-color", "black");
-
-          //to resize circles in a symbol map with a staggered delay:
-
-            d3.selectAll("circle").transition()
-              .duration(750)
-              .delay(function(d, i) { return i * 10; })
-              .attr("r", function(d) { return Math.sqrt(d * scale); });
 
     }]);
