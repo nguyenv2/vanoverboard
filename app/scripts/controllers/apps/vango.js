@@ -312,59 +312,220 @@ angular.module('vanoverboardApp')
           }
           poll();
 
-
-
-
-
           // d3
-            var myStyles = [
-                {
-                    width:200,
-                    name: 'Bill Gates',
-                    color:'#268BD2'
-                },{
-                    width:230,
-                    name: 'Steve Jobs',
-                    color:'#BD3613'
-                }, {
-                    width: 220,
-                    name: 'Larry Ellison',
-                    color: '#D11C24'
-                }, {
-                    width: 290,
-                    name: 'Elon Musk',
-                    color: '#C61C6F'
-                }, {
-                    width: 236,
-                    name: 'Mark Zuckerburg',
-                    color: '#595AB7'
-                }, {
-                    width: 230,
-                    name: 'Van Nguyen',
-                    color: '#2176C7'
-                }
-            ];
+          // selections
+          d3.selectAll("h5").style("color", "pink");
+          d3.select("body").style("color", "gray");
 
-            //d3.select('.item').text('Van Nguyen');
-            d3.selectAll('#chart').selectAll('div')
-                .data(myStyles)
-                .enter().append('div')
-                .classed('item',true)
-                .text(function(d){
-                    return d.name;
-                })
-                .style({
-                    'color': 'white',
-                    'background': function(d){
-                        console.log('bg color: ' + d.color);
-                        return d.color;
-                    },
-                    'width':function(d){
-                        return d.width + 'px';
-                    }
-                });
+          // randomly color
+          /*
+          d3.selectAll("div").style("color", function() {
+            return "hsl(" + Math.random() * 360 + ",100%,50%)";
+          });
+          */
+
+          //To alternate shades of gray for even and odd nodes:
+          /*
+            d3.selectAll("div").style("background-color", function(d, i) {
+              return i % 2 ? "#fff" : "#eee";
+            });
+            */
+
+          // reading in a array of values
+          /*
+          d3.selectAll("div")
+            .data([4, 8, 15, 16, 23, 42])
+            .style("font-size", function(d) { return d + "px"; });
+*/
+/*
+          // Update…
+          var p = d3.select("body").selectAll("p")
+            .data([4, 8, 15, 16, 23, 42])
+            .text(function(d) { return d; });
+
+          // Enter…
+          p.enter().append("p")
+            .text(function(d) { return d; });
+
+          // Exit…
+          p.exit().remove();
+          */
+
+          //to fade the background of the page to black:
+          /*
+            d3.select("body").transition()
+              .style("background-color", "black");
+          */
+
+          //to resize circles in a symbol map with a staggered delay:
+          /*
+            d3.selectAll("circle").transition()
+              .duration(750)
+              .delay(function(d, i) { return i * 10; })
+              .attr("r", function(d) { return Math.sqrt(d * scale); });
+              */
+
+/*
+        d3.select('#chart')
+          .append('svg')
+            .attr('width', 600)
+            .attr('height', 400)
+            .style('background','yellow')
+          .append('rect')
+            .attr('x',200)
+            .attr('y',100)
+            .attr('height',200)
+            .attr('width',200)
+            .style('fill','blue')
 
 
+          d3.select('svg')
+            .append('circle')
+            .attr('cx','300')
+            .attr('cy','200')
+            .attr('r','50')
+            .style('fill','#840043')
+*/
+
+          //var bardata = [20, 30, 45, 15, 67,20, 34,45, 15, 20, 34,45, 15,30, 45, 15, 67,20, 34,45, 15, 20, 34,45, 15, 97, 20, 34];
+
+          var bardata = [];
+
+          for (var i=0; i<500; i++){
+            bardata.push(Math.random()*30)
+          }
+
+          bardata.sort(function compareNumbers(a,b) {
+            return a-b;
+          })
+
+          var height = 400,
+              width = 600,
+              barWidth = 50,
+              barOffset = 5;
+
+          // height based color
+          /*
+          var colors = d3.scale.linear()
+            .domain([0, d3.max(bardata)])
+            .range(['red','blue']);
+            */
+
+          // x based color
+          var colors = d3.scale.linear()
+            .domain([0, bardata.length*.33, bardata.length*.66, bardata.length])
+            .range(['red','blue','pink','green']);
+
+          var yScale = d3.scale.linear()
+            .domain([0,d3.max(bardata)])
+            .range([0, height]);
+
+          var xScale = d3.scale.ordinal()
+            .domain(d3.range(0,bardata.length))
+            .rangeBands([0,width])
+
+          var tempColor;
+
+          var tooltip = d3.select('body').append('div')
+            .style('position','absolute')
+            .style('padding','0 10px')
+            .style('background','white')
+            .style('opacity',0)
+
+
+         var myChart =  d3.select('#chart').append('svg')
+            .attr('width',width)
+            .attr('height',height)
+            .style('background','#C9D7D6')
+            .selectAll('rect').data(bardata)
+            .enter().append('rect')
+              //.style('fill',colors)
+              .style('fill', function(d,i){
+                return colors(i);
+              })
+              .attr('width',xScale.rangeBand())
+              .attr('height',0)
+           /*
+              .attr('height',function(d){
+                return yScale(d);
+              })
+          */
+              .attr('x',function(d,i){
+                return xScale(i);
+              })
+              .attr('y', height)
+           /*
+             .attr('y', function(d){
+               return height - yScale(d);
+             })
+             */
+            .on('mouseover',function(d){
+
+              tooltip.transition()
+                .style('opacity',.9)
+
+              tooltip.html(d)
+                .style('left', (d3.event.pageX) + 'px')
+                .style('top', (d3.event.pageY) + 'px')
+
+              tempColor = this.style.fill;
+              d3.select(this)
+                .style('opacity',.5)
+                .style('fill','yellow')
+            })
+            .on('mouseout', function(d){
+              d3.select(this)
+                .transition().duration(800)
+                .style('opacity',1)
+                .style('fill',tempColor)
+            })
+
+          myChart.transition()
+            .attr('height', function(d){
+              return yScale(d);
+            })
+            .attr('y', function(d){
+              return height - yScale(d);
+            })
+            .delay(function(d,i) {
+              return i * 5;
+            })
+            .duration(1000)
+            .ease('elastic')
+
+          var vGuideScale = d3.scale.linear()
+            .domain([0,d3.max(bardata)])
+            .range([height,0])
+
+          var vAxis = d3.svg.axis()
+            .scale(vGuideScale)
+            .orient('left')
+            .ticks(10);
+
+          var vGuide = d3.select('svg').append('g');
+
+            vAxis(vGuide);
+
+            vGuide.attr('transform','translate(35,0)');
+          vGuide.selectAll('path')
+            .style({fill:'none',stroke:'#000'});
+          vGuide.selectAll('line')
+            .style({stroke:'#000'});
+
+          var hAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient('bottom')
+            .tickValues(xScale.domain().filter(function(d){
+              return !(i % (bardata.length/100));
+            }))
+
+          var hGuide = d3.select('svg').append('g')
+          hAxis(hGuide);
+          hGuide.attr('transform','translate(0, ' + (height-30) + ')');
+          hGuide.selectAll('path')
+            .style({fill:'none',stroke:'#000'});
+          hGuide.selectAll('line')
+            .style({stroke:'#000'});
 
 
     }]);
