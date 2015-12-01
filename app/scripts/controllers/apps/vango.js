@@ -11,6 +11,8 @@ angular.module('vanoverboardApp')
     .controller('VanGoCtrl', ['$scope','$http','bikeshareService',
         function ($scope,$http,bikeshareService) {
 
+          var d3 = require('d3');
+
           var curDate = new Date();
 
 /*

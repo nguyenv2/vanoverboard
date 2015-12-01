@@ -13,6 +13,7 @@ angular.module('vanoverboardApp')
 
 
       console.log('VanEatsCtrl ...');
+      var d3 = require('d3');
 
       var width = 400,
         height = 400,
