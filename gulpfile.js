@@ -4,6 +4,7 @@ var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var browserify = require('gulp-browserify');
 var compass = require('gulp-compass');
+var connect = require('gulp-connect');
 
 
 var coffeeSources = ['components/coffee/tagline.coffee'];
@@ -26,7 +27,7 @@ gulp.task('log', function(){
   gutil.log('Workflows are awesome');
 });
 
-gulp.task('coffee', function(){
+gulp.task('coffee', ['js'], function(){
   gulp.src(coffeeSources)
     .pipe(coffee({bare:true})
       .on('error', gutil.log))
@@ -37,10 +38,11 @@ gulp.task('js', function() {
   gulp.src(jsSources)
     .pipe(concat('script.js'))
     .pipe(browserify())
-    .pipe(gulp.dest('target/scripts'));
+    .pipe(gulp.dest('target/scripts'))
+    .pipe(connect.reload())
 })
 
-gulp.task('compass', ['js'], function() {
+gulp.task('compass', function() {
     gulp.src(sassSources)
         .pipe(compass({
             sass: 'app/styles/sass',
@@ -52,6 +54,18 @@ gulp.task('compass', ['js'], function() {
 })
 
 
+gulp.task('watch', function(){
+    gulp.watch(jsSources,['js']);
+    gulp.watch('app/styles/sass/*.scss',['compass']);
+})
+
+gulp.task('connect', function(){
+    connect.server({
+        root: '',
+        livereload: true
+    })
+})
+
 gulp.task('all', ['js','compass']);
 
-gulp.task('default', ['js','compass']);
+gulp.task('default', ['js','compass','connect']);

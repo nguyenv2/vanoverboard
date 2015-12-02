@@ -11,5 +11,6 @@ angular.module('vanoverboardApp')
   .controller('AboutCtrl', function () {
 
     console.log('(AboutCtrl) starting...');
+      consolelog('(watch) do you see me? gulp?')
 
   });
